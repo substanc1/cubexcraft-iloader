@@ -21,4 +21,6 @@ bun tauri build
 
 ## Лицензия
 
-Код — MIT, см. [LICENSE](LICENSE). Шрифты Unbounded, JetBrains Mono и Manrope — SIL OFL 1.1.
+С версии 1.4.7 код установщика открыт **только для просмотра**: смотреть, проверять и собирать для себя можно, копировать, распространять и делать на его основе свои установщики — нельзя, см. [LICENSE](LICENSE). Основа — [iloader](https://github.com/nab138/iloader) (© 2025 nab138), её части остаются под MIT — [LICENSE-MIT](LICENSE-MIT). Версии до 1.4.6 включительно вышли под MIT. Сторонние компоненты — [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), уязвимости — [SECURITY.md](SECURITY.md).
+
+Since 1.4.7 the installer source is published for review only (see LICENSE); the parts from iloader by nab138 remain under MIT (LICENSE-MIT).

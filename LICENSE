@@ -1,21 +1,90 @@
-MIT License
+CubeXCraft Installer — лицензия на исходный код (только просмотр)
+CubeXCraft Installer — Source-Available License (view only)
 
-Copyright (c) 2025 nab138
+Copyright © 2026 CubeXCraft (https://www.cubexcraft.site). Все права защищены. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Установщик основан на iloader (© 2025 nab138), который распространяется по лицензии MIT — её текст в файле LICENSE-MIT.
+Части, взятые из iloader, остаются под MIT. Эта лицензия относится к изменениям и дополнениям CubeXCraft и к установщику
+CubeXCraft в целом, начиная с версии 1.4.7. Версии до 1.4.6 включительно были опубликованы по MIT и остаются под ней.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The installer is based on iloader (© 2025 nab138), licensed under the MIT License (see LICENSE-MIT). The parts taken from
+iloader remain under MIT. This license covers the CubeXCraft changes and additions and the CubeXCraft Installer as a whole,
+starting with version 1.4.7. Versions up to and including 1.4.6 were published under MIT and remain under it.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+
+РУССКИЙ
+
+1. Исходный код CubeXCraft Installer («Программа») открыт только для ознакомления: чтобы любой мог проверить, что
+   установщик делает с Apple ID и устройством игрока, и сообщить об уязвимости.
+
+2. Разрешено:
+   а) просматривать и изучать исходный код;
+   б) собирать Программу из исходного кода и изменять её для личного использования на своих устройствах, не передавая
+      сборку другим лицам;
+   в) приводить фрагменты кода в сообщениях об ошибках и уязвимостях, адресованных CubeXCraft.
+
+3. Без письменного разрешения CubeXCraft запрещено:
+   а) копировать, распространять, публиковать, продавать или иначе передавать Программу, её части или сборки — в исходном
+      или исполняемом виде (кроме частей под MIT, см. выше);
+   б) распространять изменённые версии, создавать на основе Программы производные работы, в том числе установщики для
+      других проектов;
+   в) использовать название, логотипы, графику, дизайн интерфейса, тексты и другие материалы CubeXCraft;
+   г) удалять или изменять уведомления об авторских правах, эту лицензию и LICENSE-MIT.
+
+4. Официальные сборки распространяются только через https://www.cubexcraft.site и встроенное автообновление.
+
+5. Сторонние компоненты распространяются по своим лицензиям — см. THIRD_PARTY_NOTICES.md. Эта лицензия не ограничивает
+   права, которые дают их лицензии. В частности, библиотека apple-codesign-quick распространяется по LGPL-2.1-or-later:
+   вы вправе изменить её и пересобрать Программу со своей версией (исходный код Программы — в этом репозитории), а также
+   исследовать Программу в той мере, в какой это нужно для отладки таких изменений.
+
+6. Присылая изменения (pull request, патч, предложение), вы передаёте CubeXCraft бессрочное и безвозмездное право
+   использовать, изменять и распространять их в составе Программы.
+
+7. Программа предоставляется «как есть», без каких-либо гарантий. CubeXCraft не отвечает за ущерб от использования
+   Программы, в том числе за действия Apple с вашим Apple ID и сертификатами, кроме случаев, когда такая ответственность
+   обязательна по закону.
+
+8. При нарушении этих условий разрешения из пункта 2 прекращаются автоматически.
+
+Вопросы по лицензии: admin@cubexcraft.site.
+
+
+ENGLISH (translation)
+
+1. The source code of the CubeXCraft Installer (the "Program") is published for review only: so that anyone can check
+   what the installer does with a player's Apple ID and device, and report vulnerabilities.
+
+2. You may:
+   a) view and study the source code;
+   b) build the Program from source and modify it for personal use on your own devices, without giving the build to
+      anyone else;
+   c) quote parts of the code in bug and vulnerability reports sent to CubeXCraft.
+
+3. Without written permission from CubeXCraft you may not:
+   a) copy, distribute, publish, sell or otherwise transfer the Program, its parts or builds, in source or executable
+      form (except the MIT-licensed parts, see above);
+   b) distribute modified versions or create derivative works based on the Program, including installers for other
+      projects;
+   c) use the CubeXCraft name, logos, graphics, interface design, texts or other CubeXCraft materials;
+   d) remove or alter copyright notices, this license or LICENSE-MIT.
+
+4. Official builds are distributed only through https://www.cubexcraft.site and the built-in self-update.
+
+5. Third-party components are distributed under their own licenses, see THIRD_PARTY_NOTICES.md. This license does not
+   restrict the rights their licenses grant. In particular, apple-codesign-quick is licensed under LGPL-2.1-or-later:
+   you may modify it and rebuild the Program with your version (the Program's source is in this repository), and
+   reverse-engineer the Program as far as needed to debug such modifications.
+
+6. By submitting changes (a pull request, patch or suggestion) you grant CubeXCraft a perpetual, royalty-free right to
+   use, modify and distribute them as part of the Program.
+
+7. The Program is provided "as is", without warranty of any kind. CubeXCraft is not liable for damages arising from its
+   use, including actions Apple takes on your Apple ID or certificates, except where such liability cannot be excluded
+   by law.
+
+8. Any breach of these terms automatically ends the permissions in section 2.
+
+License questions: admin@cubexcraft.site.
+
+If the Russian and English texts differ, the Russian text prevails.

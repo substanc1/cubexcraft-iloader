@@ -340,6 +340,6 @@
     "step_install": "Install",
     "howto": "How to install?",
     "advanced": "Advanced",
-    "licenses": "Licenses: installer code — MIT, © 2025 nab138 (see LICENSE); isideload — MIT; fonts Unbounded, JetBrains Mono, Manrope — SIL OFL 1.1. CubeXCraft for iPhone — GPL-3.0 (based on Amethyst), source code: https://www.cubexcraft.site/cxl/launcher/CubeXCraft-ios-src.tar.gz"
+    "licenses": "Licenses: installer — © 2026 CubeXCraft, source published for review only (LICENSE); based on iloader, © 2025 nab138, MIT (LICENSE-MIT); isideload and idevice — MIT; apple-codesign-quick — LGPL-2.1; Font Awesome icons — CC BY 4.0; fonts Unbounded, JetBrains Mono, Manrope — SIL OFL 1.1. CubeXCraft for iPhone — GPL-3.0 (based on Amethyst), source code: https://www.cubexcraft.site/cxl/launcher/CubeXCraft-ios-src.tar.gz"
   }
 }

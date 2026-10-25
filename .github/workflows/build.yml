@@ -52,6 +52,7 @@ jobs:
             CubeXCraft-Installer.dmg
             CubeXCraft-Installer-macos.app.tar.gz
           if-no-files-found: error
+          retention-days: 3
 
   windows:
     runs-on: windows-latest
@@ -100,3 +101,4 @@ jobs:
             CubeXCraft-Installer-Windows-setup.exe
             CubeXCraft-Installer-windows-x64.exe
           if-no-files-found: error
+          retention-days: 3
