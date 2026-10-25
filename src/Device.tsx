@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./Device.css";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { Modal } from "./components/Modal";
@@ -28,6 +29,8 @@ export const Device = ({
   const [devices, setDevices] = useState<DeviceInfo[]>([]);
   const [waitingToPair, setWaitingToPair] = useState<DeviceInfo | null>(null);
   const [showPairingModal, setShowPairingModal] = useState(false);
+  // Windows: служба Apple для связи с iPhone — установщик ставит её сам (applesvc.rs)
+  const [appleService, setAppleService] = useState<{ state: string; progress: number } | null>(null);
 
   const listingDevices = useRef<boolean>(false);
   const pairingRequestId = useRef<number>(0);
@@ -164,6 +167,17 @@ export const Device = ({
     return () => registerRefresh?.(undefined);
   }, [registerRefresh, loadDevices]);
 
+  useEffect(() => {
+    invoke<{ state: string; progress: number } | null>("apple_service_state").then(setAppleService).catch(() => {});
+    const unlisten = listen<{ state: string; progress: number }>("apple-service", (event) => {
+      setAppleService(event.payload);
+      if (event.payload.state === "ready") loadDevices();
+    });
+    return () => {
+      unlisten.then((fn) => fn());
+    };
+  }, [loadDevices]);
+
   return (
     <>
       <Modal
@@ -198,6 +212,14 @@ export const Device = ({
         </div>
       </Modal>
       <h2 style={{ marginTop: 0 }}>{t("device.title")}</h2>
+      {appleService && (
+        <div className="cxc-hint">
+          <p>{t("device.apple_service_" + appleService.state, { pct: appleService.progress })}</p>
+          {appleService.state === "failed" && (
+            <button onClick={() => invoke("apple_service_install")}>{t("device.apple_service_retry")}</button>
+          )}
+        </div>
+      )}
       <div className="credentials-container">
         {devices.length === 0 && (
           <div>

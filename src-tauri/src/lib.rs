@@ -1,5 +1,6 @@
 #[macro_use]
 mod account;
+mod applesvc;
 #[macro_use]
 mod device;
 #[macro_use]
@@ -158,6 +159,9 @@ pub fn run() {
                 if let Some(window) = app.get_webview_window("main") {
                     let _ = window.hide();
                 }
+            } else {
+                // Windows: нет службы Apple для связи с iPhone — ставим её сами (в трее — нет: там не спросить разрешение)
+                applesvc::start(app.handle().clone());
             }
             // вход Apple ID просит код или сертификатов слишком много — показать спрятанное окно с вопросом
             for event in ["2fa-required", "max-certs-reached"] {
@@ -197,6 +201,8 @@ pub fn run() {
             force_disable_keyring,
             cancel_pairing,
             has_stored_rppairing,
+            applesvc::apple_service_state,
+            applesvc::apple_service_install,
         ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application")

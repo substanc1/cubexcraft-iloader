@@ -90,6 +90,12 @@
     "found_devices": "Found devices",
     "unable_load_devices_prefix": "Unable to load devices",
     "no_devices_found_period": "No devices found.",
+    "apple_service_downloading": "This computer needs the Apple service to talk to the iPhone — downloading it from apple.com: {{pct}}%",
+    "apple_service_installing": "Installing the Apple service for the iPhone. Windows will ask for permission — click “Yes”.",
+    "apple_service_ready": "The Apple service is installed — the computer can see the iPhone now.",
+    "apple_service_restart": "The Apple service is installed but has not started yet — restart the computer.",
+    "apple_service_failed": "Could not install the Apple service for the iPhone.",
+    "apple_service_retry": "Try again",
     "first_time_hint": "The first time, connect the iPhone to this computer with a cable: unlock it and tap “Trust”. It shows up over Wi-Fi only if “Show this iPhone when on Wi-Fi” is on for this computer (Finder on Mac, Apple Devices or iTunes on Windows) and it is on the same Wi-Fi.",
     "selected": "Selected",
     "pairing_in_progress_header": "Pairing with {{device}}...",
@@ -272,8 +278,7 @@
       "canceled": [],
       "operation_update": [],
       "usbmuxd": [
-        "[platform::windows]Ensure you have ((link:https://apple.co/ms:iTunes)) installed and check that it can detect your device.",
-        "[platform::windows]Uninstall iTunes and Apple Mobile Device Support, then install \"Apple Devices\" from the Microsoft Store.",
+        "[platform::windows]The installer sets up the Apple service for the iPhone by itself — see the status in the iPhone block. If it says it could not, click “Try again”.",
         "[platform::linux]Make sure usbmuxd is installed and running."
       ],
       "trust": [

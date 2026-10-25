@@ -89,6 +89,12 @@
     "found_devices": "Обнаружены устройства",
     "unable_load_devices_prefix": "Не удалось загрузить устройства",
     "no_devices_found_period": "Устройства не найдены.",
+    "apple_service_downloading": "Компьютеру нужна служба Apple для связи с iPhone — скачиваю её с apple.com: {{pct}} %",
+    "apple_service_installing": "Ставлю службу Apple для связи с iPhone. Windows спросит разрешение — нажмите «Да».",
+    "apple_service_ready": "Служба Apple установлена — теперь компьютер видит iPhone.",
+    "apple_service_restart": "Служба Apple установлена, но ещё не запустилась — перезагрузите компьютер.",
+    "apple_service_failed": "Не получилось поставить службу Apple для связи с iPhone.",
+    "apple_service_retry": "Попробовать снова",
     "first_time_hint": "В первый раз iPhone подключают к этому компьютеру кабелем: разблокируйте его и нажмите «Доверять». По Wi-Fi он появится, только если на этом компьютере включено «Показывать этот iPhone при подключении к Wi-Fi» (Finder на Mac, «Устройства Apple» или iTunes на Windows) и он в той же Wi-Fi.",
     "selected": "Выбрано",
     "pairing_in_progress_header": "Создание пары с {{device}}...",
@@ -271,8 +277,7 @@
       "canceled": [],
       "operation_update": [],
       "usbmuxd": [
-        "[platform::windows] Убедитесь, что ((link:https://apple.co/ms:iTunes)) установлен и видит ваше устройство.",
-        "[platform::windows] Удалите iTunes и Apple Mobile Device Support, затем установите приложение \"Устройства Apple\" из Microsoft Store.",
+        "[platform::windows] Установщик сам ставит службу Apple для связи с iPhone — статус в блоке «iPhone». Если там «Не получилось», нажмите «Попробовать снова».",
         "[platform::linux] Убедитесь, что сервис usbmuxd установлен и запущен."
       ],
       "trust": [

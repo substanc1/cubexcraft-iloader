@@ -2619,7 +2619,7 @@ dependencies = [
 
 [[package]]
 name = "cubexcraft-installer"
-version = "1.4.3"
+version = "1.4.4"
 dependencies = [
  "chrono",
  "futures",
