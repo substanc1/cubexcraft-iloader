@@ -97,6 +97,15 @@ async fn generate_lockdown_plist(
         AppError::LockdownPairing("Failed to enable wifi debugging".into(), e.to_string())
     })?;
 
+    // CubeXCraft: iPhone виден этому компьютеру и по Wi-Fi — то же, что «Показывать этот iPhone при подключении к Wi-Fi»
+    // в Finder, «Устройствах Apple» или iTunes (на Windows их окна может и не быть: ставим только службу Apple)
+    if let Err(e) = lc
+        .set_value("EnableWifiConnections", true.into(), Some("com.apple.mobile.wireless_lockdown"))
+        .await
+    {
+        tracing::warn!("pairing: failed to enable Wi-Fi connections: {e}");
+    }
+
     plist::Value::from_reader_xml(std::io::Cursor::new(pairing_file.serialize().map_err(
         |e| AppError::LockdownPairing("Failed to serialize pairing file".into(), e.to_string()),
     )?))
