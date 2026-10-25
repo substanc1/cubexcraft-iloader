@@ -143,6 +143,7 @@ export const CubeXCraft = ({
               {r.lastError ? " " + t("cubexcraft.renew_failed") : ""}
             </p>
           ))}
+          <p className="cxc-hint">{t("cubexcraft.renew_wifi_hint")}</p>
           <button
             disabled={renewing}
             onClick={async () => {

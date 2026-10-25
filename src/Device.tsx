@@ -200,7 +200,10 @@ export const Device = ({
       <h2 style={{ marginTop: 0 }}>{t("device.title")}</h2>
       <div className="credentials-container">
         {devices.length === 0 && (
-          <div>{t("device.no_devices_found_period")}</div>
+          <div>
+            {t("device.no_devices_found_period")}
+            <p className="cxc-hint">{t("device.first_time_hint")}</p>
+          </div>
         )}
         {devices.map((device) => {
           const isActive = selectedDevice?.id === device.id;
