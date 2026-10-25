@@ -96,7 +96,7 @@
     "apple_service_restart": "The Apple service is installed but has not started yet — restart the computer.",
     "apple_service_failed": "Could not install the Apple service for the iPhone.",
     "apple_service_retry": "Try again",
-    "first_time_hint": "The first time, connect the iPhone to this computer with a cable: unlock it and tap “Trust”. It shows up over Wi-Fi only if “Show this iPhone when on Wi-Fi” is on for this computer (Finder on Mac, Apple Devices or iTunes on Windows) and it is on the same Wi-Fi.",
+    "first_time_hint": "The first time, connect the iPhone to this computer with a cable: unlock it and tap “Trust”. The installer turns on Wi-Fi visibility by itself — after that the iPhone shows up without a cable when both are on the same Wi-Fi.",
     "selected": "Selected",
     "pairing_in_progress_header": "Pairing with {{device}}...",
     "pairing_in_progress_hint": "Please unlock your device and click \"Trust,\" then enter your passcode if prompted.",
@@ -157,7 +157,7 @@
     "wait_apps_hint": "Point the iPhone camera at the code and tap \"Get\" in the App Store — the installer continues by itself once LocalDevVPN appears.",
     "renew_line": "Auto-renew: {{name}} — on {{date}}, once the iPhone is on the same Wi-Fi or cable.",
     "renew_failed": "The last attempt failed — connect the iPhone with a cable.",
-    "renew_wifi_hint": "To renew without a cable, once on this computer: connect the iPhone with a cable and tap “Trust” on it, then turn on “Show this iPhone when on Wi-Fi” — in Finder on Mac (iPhone → General), on Windows in Apple Devices or iTunes (Summary → “Sync with this iPhone over Wi-Fi”). After that the iPhone and the computer must be on the same Wi-Fi.",
+    "renew_wifi_hint": "To renew without a cable: once, connect the iPhone to this computer with a cable and tap “Trust” on it — the installer turns on Wi-Fi visibility by itself. After that the iPhone and the computer must be on the same Wi-Fi. Not showing up over Wi-Fi — turn on “Show this iPhone when on Wi-Fi” in Finder (Mac) or in iTunes / Apple Devices (Windows).",
     "renew_now": "Renew now",
     "renewing": "Renewing..."
   },
