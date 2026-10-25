@@ -3,7 +3,10 @@
 // Чего на телефоне нет (StikDebug, LocalDevVPN — оба из App Store), интерфейс показывает QR-кодом на App Store.
 use std::path::PathBuf;
 
-use idevice::{IdeviceService, installation_proxy::InstallationProxyClient, provider::IdeviceProvider};
+use idevice::{
+    IdeviceService, afc::opcode::AfcFopenMode, house_arrest::HouseArrestClient,
+    installation_proxy::InstallationProxyClient, provider::IdeviceProvider,
+};
 use qrcode::{QrCode, render::svg};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -162,7 +165,7 @@ pub struct CubeXCraftStatus {
     pub localdevvpn: bool,
 }
 
-async fn device_status(provider: &dyn IdeviceProvider) -> Result<CubeXCraftStatus, AppError> {
+pub async fn device_status(provider: &dyn IdeviceProvider) -> Result<CubeXCraftStatus, AppError> {
     let mut installation_proxy = InstallationProxyClient::connect(provider).await.map_err(|e| {
         AppError::DeviceComsWithMessage(
             "Failed to connect to installation proxy".into(),
@@ -341,6 +344,10 @@ pub async fn install_cubexcraft_operation(
         tokio::time::sleep(std::time::Duration::from_secs(3)).await;
     };
     op.move_on("apps", "pairing")?;
+    // JIT без вопроса в StikDebug; не вышло — не беда, StikDebug просто спросит
+    if let Err(e) = stikdebug_skip_confirm(&provider, &stikdebug).await {
+        tracing::warn!("StikDebug: could not turn off «Confirm JIT Links»: {e:?}");
+    }
     op.fail_if_err(
         "pairing",
         place_file(
@@ -352,5 +359,55 @@ pub async fn install_cubexcraft_operation(
         .await,
     )?;
     op.complete("pairing")?;
+    Ok(())
+}
+
+// Владелец 25.10 (вариант 1): CubeXCraft открывает StikDebug ссылкой stikjit://enable-jit, и JIT включается сам,
+// без окна «Confirm JIT Links». Это ключ confirmExternalJITRequests в его UserDefaults — пишем файл настроек в
+// контейнер (house_arrest VendContainer: StikDebug подписан нашим разработческим сертификатом). Минус: без вопроса
+// StikDebug выполнит и чужую ссылку stikjit://. Если StikDebug уже запускался, iOS может держать прежнее значение
+// в памяти до перезагрузки.
+const STIKDEBUG_CONFIRM_KEY: &str = "confirmExternalJITRequests";
+
+pub async fn stikdebug_skip_confirm(provider: &dyn IdeviceProvider, bundle_id: &str) -> Result<(), AppError> {
+    let house_arrest = HouseArrestClient::connect(provider).await.map_err(|e| {
+        AppError::HouseArrest("Failed to connect to house arrest".into(), e.to_string())
+    })?;
+    let mut afc = house_arrest
+        .vend_container(bundle_id)
+        .await
+        .map_err(|e| AppError::HouseArrest("Failed to vend container".into(), e.to_string()))?;
+    let path = format!("/Library/Preferences/{bundle_id}.plist");
+    let mut prefs = match afc.open(path.clone(), AfcFopenMode::RdOnly).await {
+        Ok(mut file) => {
+            let bytes = file.read_entire().await.unwrap_or_default();
+            let _ = file.close().await;
+            plist::Value::from_reader(std::io::Cursor::new(bytes))
+                .ok()
+                .and_then(plist::Value::into_dictionary)
+                .unwrap_or_default()
+        }
+        Err(_) => plist::Dictionary::new(),
+    };
+    if prefs.get(STIKDEBUG_CONFIRM_KEY).and_then(plist::Value::as_boolean) == Some(false) {
+        return Ok(());
+    }
+    prefs.insert(STIKDEBUG_CONFIRM_KEY.into(), false.into());
+    let mut bytes = Vec::new();
+    plist::Value::Dictionary(prefs)
+        .to_writer_binary(&mut bytes)
+        .map_err(|e| AppError::Misc(format!("StikDebug settings: {e}")))?;
+    let _ = afc.mk_dir("/Library/Preferences").await;
+    let mut file = afc
+        .open(path, AfcFopenMode::WrOnly)
+        .await
+        .map_err(|e| AppError::HouseArrest("Failed to open StikDebug settings".into(), e.to_string()))?;
+    file.write_entire(&bytes)
+        .await
+        .map_err(|e| AppError::HouseArrest("Failed to write StikDebug settings".into(), e.to_string()))?;
+    file.close()
+        .await
+        .map_err(|e| AppError::HouseArrest("Failed to write StikDebug settings".into(), e.to_string()))?;
+    tracing::info!("StikDebug: «Confirm JIT Links» turned off");
     Ok(())
 }

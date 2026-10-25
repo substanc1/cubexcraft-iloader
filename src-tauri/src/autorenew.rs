@@ -282,6 +282,14 @@ async fn renew(app: &AppHandle, udid: &str, entry: &RenewEntry) -> Result<String
         let (stik_path, _) = fetch_stikdebug(app).await?;
         fastinstall::install(&mut sideloader, &provider, stik_path, &pairing, wifi).await?;
     }
+    // JIT без вопроса в StikDebug — и у тех, кто ставил до 1.4.1
+    if let Ok(crate::cubexcraft::CubeXCraftStatus { stikdebug: Some(stikdebug), .. }) =
+        crate::cubexcraft::device_status(&provider).await
+    {
+        if let Err(e) = crate::cubexcraft::stikdebug_skip_confirm(&provider, &stikdebug).await {
+            warn!("autorenew: StikDebug confirm setting: {e:?}");
+        }
+    }
     Ok(version)
 }
 
