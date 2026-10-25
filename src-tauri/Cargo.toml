@@ -1,6 +1,6 @@
 [package]
 name = "cubexcraft-installer"
-version = "1.4.2"
+version = "1.4.3"
 description = "CubeXCraft Installer"
 authors = ["CubeXCraft"]
 edition = "2024"

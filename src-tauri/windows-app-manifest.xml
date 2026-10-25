@@ -1,0 +1,24 @@
+<!-- CubeXCraft (windows-claude, 25.10): «installer» в имени exe Windows считает установщиком и требует прав
+     администратора (os error 740 при перезапуске после самообновления, UAC при запуске, автозапуск не работает).
+     asInvoker — обычные права пользователя; Common-Controls 6 — как в манифесте Tauri по умолчанию. -->
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity
+        type="win32"
+        name="Microsoft.Windows.Common-Controls"
+        version="6.0.0.0"
+        processorArchitecture="*"
+        publicKeyToken="6595b64144ccf1df"
+        language="*"
+      />
+    </dependentAssembly>
+  </dependency>
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+</assembly>
