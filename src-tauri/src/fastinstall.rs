@@ -19,6 +19,14 @@ use zip::{CompressionMethod, ZipWriter, write::SimpleFileOptions};
 use crate::{error::AppError, sideload::SideloaderGuard};
 
 const UPLOAD_CHUNK: usize = 1024 * 1024;
+const SIGN_ATTEMPTS: u32 = 3;
+
+fn is_network_error(e: &AppError) -> bool {
+    let text = e.to_string().to_lowercase();
+    ["error sending request", "timed out", "connection reset", "connection closed", "broken pipe"]
+        .iter()
+        .any(|needle| text.contains(needle))
+}
 
 // этап (sign, pack, upload, upload_wifi, install) и процент — для окна
 pub type Progress<'a> = &'a (dyn Fn(&str, u8) + Send + Sync);
@@ -40,20 +48,38 @@ pub async fn sign_and_pack(
     progress("sign", 0);
     let s = sideloader.get_mut();
     let device = IdeviceInfo::from_device(provider).await?;
-    let team = s.get_team().await?;
-    s.get_dev_session()
-        .ensure_device_registered(&team, &device.name, &device.udid, None)
-        .await?;
-    let (dir, _) = s
-        .sign_app(
-            app_path,
-            Some(team),
-            true,
-            None::<fn(f32) -> std::future::Ready<()>>,
-            Some(pairing),
-            Some(&device.udid),
-        )
-        .await?;
+    // связь с Apple рвётся (25.10 у владельца: «error sending request» на assignApplicationGroupToAppId) —
+    // подпись повторяем, все шаги isideload проверяют, что уже сделано
+    let mut attempt = 1;
+    let dir = loop {
+        let result: Result<PathBuf, AppError> = async {
+            let team = s.get_team().await?;
+            s.get_dev_session()
+                .ensure_device_registered(&team, &device.name, &device.udid, None)
+                .await?;
+            let (dir, _) = s
+                .sign_app(
+                    app_path.clone(),
+                    Some(team),
+                    true,
+                    None::<fn(f32) -> std::future::Ready<()>>,
+                    Some(pairing),
+                    Some(&device.udid),
+                )
+                .await?;
+            Ok::<PathBuf, AppError>(dir)
+        }
+        .await;
+        match result {
+            Ok(dir) => break dir,
+            Err(e) if attempt < SIGN_ATTEMPTS && is_network_error(&e) => {
+                warn!("fastinstall: Apple request failed (attempt {attempt}), retrying: {e}");
+                tokio::time::sleep(std::time::Duration::from_secs(3 * attempt as u64)).await;
+                attempt += 1;
+            }
+            Err(e) => return Err(e),
+        }
+    };
 
     progress("pack", 0);
     let bundle_id = plist::Value::from_file(dir.join("Info.plist"))
