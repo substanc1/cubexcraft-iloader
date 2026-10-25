@@ -338,6 +338,7 @@
     "step_apple": "Apple ID",
     "step_device": "iPhone",
     "step_install": "Install",
+    "howto": "How to install?",
     "advanced": "Advanced",
     "licenses": "Licenses: installer code — MIT, © 2025 nab138 (see LICENSE); isideload — MIT; fonts Unbounded, JetBrains Mono, Manrope — SIL OFL 1.1. CubeXCraft for iPhone — GPL-3.0 (based on Amethyst), source code: https://www.cubexcraft.site/cxl/launcher/CubeXCraft-ios-src.tar.gz"
   }

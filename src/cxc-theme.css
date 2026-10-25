@@ -143,3 +143,18 @@ button:active:not(:disabled) { transform: scale(.98); }
 .cxc-renew .cxc-hint { margin: 0; }
 .action-row.single-row .cxc-install { flex: 2; }
 .cxc-phase { margin: 2px 0 0; font-family: var(--cx-mono); font-size: 12px; color: #c4a8ac; }
+
+/* «Как установить?» (HowTo.tsx): кнопка в шапке и окно по шагам со схемами */
+.cxi-howto { margin-left: auto; height: 36px; padding: 0 12px; border: 1px solid var(--cx-yellow) !important; border-radius: 0 !important; background: #fcee0a14 !important; color: #fff6b0 !important; font-family: var(--cx-mono) !important; font-size: 11px !important; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+.cxi-howto + .cxi-seg { margin-left: 0; }
+.cxh { width: 560px; max-width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; }
+.cxh-top { display: flex; justify-content: space-between; gap: 12px; padding-right: 26px; font-family: var(--cx-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--cx-yellow); }
+.cxh-art { width: 100%; height: auto; display: block; background: #0b0508; border: 1px solid #2a0810; }
+.cxh h3 { margin: 4px 0 0; font-size: 16px; line-height: 1.3; }
+.cxh p { margin: 0; min-height: 64px; font-family: 'Manrope', sans-serif; font-size: 14px; line-height: 1.55; color: #c4a8ac; }
+.cxh-nav { display: flex; align-items: center; gap: 10px; }
+.cxh-nav button { min-width: 110px; }
+.cxh-nav .cxc-install { min-height: 40px !important; }
+.cxh-dots { flex: 1; display: flex; justify-content: center; gap: 6px; }
+.cxh-dots span { width: 8px; height: 8px; background: #4a1018; cursor: pointer; }
+.cxh-dots span.on { background: var(--cx-yellow); }

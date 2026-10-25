@@ -21,6 +21,7 @@ import { getVersion } from "@tauri-apps/api/app";
 import { useTranslation } from "react-i18next";
 import { usePlatform } from "./PlatformContext";
 import { CubeXCraft } from "./CubeXCraft";
+import { HowTo } from "./HowTo";
 
 const Logo = () => (
   <svg width="40" height="45" viewBox="0 0 86 96" fill="none" style={{ flex: "none", filter: "drop-shadow(0 0 12px #ff2a3c88)" }}>
@@ -37,6 +38,20 @@ function App() {
   const [loggedInAs, setLoggedInAs] = useState<string | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<DeviceInfo | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  // «Как установить?» — при первом запуске открывается само
+  const [howToOpen, setHowToOpen] = useState(() => {
+    try {
+      return localStorage.getItem("cxh-seen") === null;
+    } catch {
+      return false;
+    }
+  });
+  const closeHowTo = useCallback(() => {
+    setHowToOpen(false);
+    try {
+      localStorage.setItem("cxh-seen", "1");
+    } catch {}
+  }, []);
   const [version, setVersion] = useState<string>("");
   const [noKeyringAvailable, setNoKeyringAvailable] = useState<boolean>(false);
   // самообновление (selfupdate.rs): пока качается и ставится новая версия — плашка поверх окна
@@ -158,6 +173,9 @@ function App() {
           </div>
           <div className="cxi-sub">// {t("cxc.subtitle")}</div>
         </div>
+        <button className="cxi-howto" onClick={() => setHowToOpen(true)}>
+          {t("cxc.howto")}
+        </button>
         <div className="cxi-seg">
           {(["ru", "en"] as const).map((l) => (
             <span key={l} className={lang === l ? "on" : ""} onClick={() => i18n.changeLanguage(l)}>
@@ -207,6 +225,7 @@ function App() {
         </span>
       </footer>
 
+      <HowTo isOpen={howToOpen} close={closeHowTo} lang={lang} platform={platform} />
       {operationState && <OperationView operationState={operationState} closeMenu={() => setOperationState(null)} />}
       <Modal sizeFit isOpen={selfUpdate !== null} zIndex={3000}>
         <h2>{t("update.self_title")}</h2>
