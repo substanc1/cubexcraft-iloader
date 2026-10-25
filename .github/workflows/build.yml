@@ -1,0 +1,93 @@
+# Сборка CubeXCraft Installer (windows-claude, SCRUM-362/363): ставит CubeXCraft на iPhone с правом Increased Memory Limit.
+# Mac — DMG (владелец 25.10: «установщик дмг должен быть»), Windows — NSIS.
+# Без подписи: Mac — первый запуск правый клик → «Открыть» (или xattr -cr); Windows — SmartScreen «Подробнее» → «Выполнить в любом случае».
+name: Build CubeXCraft Installer
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  mac:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Зависимости
+        run: bun i --frozen-lockfile
+
+      # иконка CubeXCraft (шестиугольник из пакета дизайнера) во всех размерах
+      - name: Иконка
+        run: bunx tauri icon app-icon.png
+
+      # universal — и Apple Silicon, и Intel
+      - name: Сборка
+        run: bunx tauri build --target universal-apple-darwin --bundles app,dmg --config src-tauri/ci.conf.json
+
+      - name: Упаковка
+        run: |
+          DMG=$(find src-tauri/target/universal-apple-darwin/release/bundle/dmg -maxdepth 1 -name "*.dmg" | head -1)
+          echo "$DMG"
+          cp "$DMG" CubeXCraft-Installer.dmg
+          ls -la CubeXCraft-Installer.dmg
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CubeXCraft-Installer-mac
+          path: CubeXCraft-Installer.dmg
+          if-no-files-found: error
+
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: MSVC в PATH
+        uses: ilammy/msvc-dev-cmd@v1
+
+      # как у автора: perl и make нужны сборке OpenSSL
+      - name: Perl и make
+        run: choco install strawberryperl make --no-progress
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Зависимости
+        run: bun i --frozen-lockfile
+
+      # иконка CubeXCraft (шестиугольник из пакета дизайнера) во всех размерах
+      - name: Иконка
+        run: bunx tauri icon app-icon.png
+
+      - name: Сборка
+        run: bunx tauri build --bundles nsis --config src-tauri/ci.conf.json
+
+      - name: Упаковка
+        shell: bash
+        run: |
+          EXE=$(find src-tauri/target/release/bundle/nsis -maxdepth 1 -name "*.exe" | head -1)
+          echo "$EXE"
+          cp "$EXE" CubeXCraft-Installer-Windows-setup.exe
+          ls -la CubeXCraft-Installer-Windows-setup.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CubeXCraft-Installer-windows
+          path: CubeXCraft-Installer-Windows-setup.exe
+          if-no-files-found: error

@@ -1,0 +1,145 @@
+/* CubeXCraft Installer — оформление в стиле лаунчера CubeXCraft (handoff Claude Design «CubeXCraft Mobile»):
+   тёмно-бордовый фон, красный акцент, скошенные углы; шрифты OFL лежат в приложении. Поверх базовых стилей App.css. */
+@font-face { font-family: 'Unbounded'; src: url('./assets/fonts/Unbounded.ttf') format('truetype'); font-weight: 200 900; }
+@font-face { font-family: 'JetBrains Mono'; src: url('./assets/fonts/JetBrainsMono.ttf') format('truetype'); font-weight: 100 800; }
+@font-face { font-family: 'Manrope'; src: url('./assets/fonts/Manrope.ttf') format('truetype'); font-weight: 200 800; }
+
+:root {
+  font-family: 'Manrope', sans-serif;
+  color: #f0e2e3;
+  background-color: #0b0509;
+  --glass-surface: #0e0609;
+  --glass-surface-alt: #12060a;
+  --glass-border: #4a1018;
+  --glass-highlight: #ff2a3c;
+  --text-muted: #8a6167;
+  --accent-primary: #ff2a3c;
+  --accent-secondary: #ff2a3c;
+  --success: #00ff9f;
+  --danger: #ff2a3c;
+  --cx-yellow: #fcee0a;
+  --cx-mono: 'JetBrains Mono', monospace;
+  --cx-head: 'Unbounded', sans-serif;
+}
+
+body {
+  background: radial-gradient(620px 420px at 90% -10%, #5c000f40, transparent 65%),
+              radial-gradient(520px 380px at -10% 110%, #3d002255, transparent 65%), #0b0509;
+  background-attachment: fixed;
+}
+
+h1, h2, h3 { font-family: var(--cx-head); color: #f0e2e3; }
+p { color: #b09ba0; }
+
+input, select {
+  border-radius: 0 !important;
+  border: 1px solid #4a1018 !important;
+  background: #12060a !important;
+  color: #f0e2e3 !important;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  min-height: 46px;
+  padding: 0 14px !important;
+  outline: none;
+}
+input:focus, select:focus { border-color: #ff2a3c !important; box-shadow: none !important; }
+input::placeholder { color: #7d585e; }
+input[type=checkbox] { min-height: 0; accent-color: #ff2a3c; }
+
+button {
+  border-radius: 0 !important;
+  font-family: var(--cx-mono);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  min-height: 44px;
+  padding: 0 16px;
+  background: transparent !important;
+  border: 1px solid #4a1018 !important;
+  color: #c4a8ac !important;
+  transition: transform .12s ease-out;
+}
+button:hover:not(:disabled) { border-color: #ff2a3c !important; color: #ffd6d9 !important; background: #ff2a3c10 !important; }
+button:active:not(:disabled) { transform: scale(.98); }
+
+.card, .glass-card, .panel {
+  border-radius: 0 !important;
+  background: #0e0609 !important;
+  border: 1px solid #3a0d13 !important;
+  box-shadow: none !important;
+}
+
+/* окна */
+.modal-container { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #04020499; }
+.modal {
+  border-radius: 0 !important;
+  background: #12060a !important;
+  border: 1px solid #ff2a3c !important;
+  box-shadow: 0 0 60px -20px #ff2a3c !important;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+.modal-close { color: #c4a8ac; }
+
+/* Apple ID и устройства */
+.logged-in-as { border-color: #0a5c3d !important; background: #00ff9f08 !important; }
+.logged-label { font-family: var(--cx-mono); font-size: 11px !important; letter-spacing: .16em; text-transform: uppercase; color: #8a6167 !important; }
+.logged-value { font-family: var(--cx-mono); color: #f0e2e3 !important; }
+.action-button { border-radius: 0 !important; }
+.action-button.primary { border-color: #ff2a3c !important; color: #ffd6d9 !important; background: #ff2a3c1a !important; }
+.action-button.danger { border-color: #5e141d !important; color: #ff2a3c !important; }
+.stored, .add-account { border-radius: 0 !important; }
+.stored-email { font-family: var(--cx-mono); }
+.device-card { border-radius: 0 !important; border-color: #3a0d13 !important; background: #0e0609 !important; text-transform: none; letter-spacing: 0; }
+.device-card.active, .device-card.active:hover { border-color: #ff2a3c !important; background: linear-gradient(100deg, #2a0810, #12060a) !important; box-shadow: 0 0 30px -16px #ff2a3c; }
+.device-name { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 14px; color: #fff1f2; }
+.device-connection { font-family: var(--cx-mono); font-size: 12px; color: #8a6167 !important; }
+.device-selected-pill { border-radius: 0 !important; font-family: var(--cx-mono); font-size: 11px !important; letter-spacing: .1em; text-transform: uppercase; border-color: #0a5c3d !important; color: #00ff9f; background: #00ff9f10 !important; }
+
+/* ход установки */
+.operation-content h2 { font-family: var(--cx-head); }
+.operation-step { border-radius: 0 !important; }
+
+/* раскладка установщика */
+.cxi { max-width: 640px; margin: 0 auto; padding: 22px 20px 28px; display: flex; flex-direction: column; gap: 22px; }
+.cxi-head { display: flex; align-items: center; gap: 14px; }
+.cxi-brand { font-family: var(--cx-head); font-weight: 800; font-size: 18px; letter-spacing: .12em; color: #f7eaea; }
+.cxi-brand b { color: #ff2a3c; font-weight: 800; }
+.cxi-sub { font-family: var(--cx-mono); font-size: 11px; letter-spacing: .2em; color: var(--cx-yellow); text-transform: uppercase; margin-top: 4px; }
+.cxi-seg { margin-left: auto; display: flex; border: 1px solid #4a1018; height: 36px; }
+.cxi-seg span { font-family: var(--cx-mono); font-size: 12px; letter-spacing: .14em; min-width: 40px; padding: 0 10px; display: grid; place-items: center; color: #8a6167; cursor: pointer; }
+.cxi-seg span.on { background: #ff2a3c1f; color: #ffd6d9; box-shadow: inset 0 -2px 0 #ff2a3c; }
+.cxi-kick { display: flex; align-items: center; gap: 10px; min-height: 20px; margin-bottom: 10px; }
+.cxi-kick span:first-child { font-family: var(--cx-mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; color: #ff2a3c; }
+.cxi-kick .ln { flex: 1; height: 1px; background: linear-gradient(90deg, #ff2a3c66, transparent); }
+.cxi-kick.y span:first-child { color: var(--cx-yellow); }
+.cxi-kick.y .ln { background: linear-gradient(90deg, #fcee0a66, transparent); }
+.cxi-step { position: relative; border: 1px solid #3a0d13; background: linear-gradient(115deg, #1a0609, #0b0510 60%, #0a0713); padding: 18px 16px;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px)); }
+.cxi-step.done { border-color: #0a5c3d; }
+.cxi-body > h2:first-child { display: none; }
+.cxi-foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--cx-mono); font-size: 11px; color: #8a6167; letter-spacing: .06em; }
+.cxi-foot a, .cxi-foot span.link { color: #8a6167; cursor: pointer; text-decoration: underline dotted; }
+
+/* панель CubeXCraft */
+.cxc-install {
+  min-height: 54px !important; font-family: var(--cx-head) !important; font-weight: 600 !important; font-size: 13px !important;
+  border-color: #ff2a3c !important; background: #ff2a3c1a !important; color: #ffd6d9 !important; text-shadow: 0 0 14px #ff2a3c;
+  box-shadow: 0 0 36px -16px #ff2a3c; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.cxc-row { font-family: 'Manrope', sans-serif; font-size: 14px; color: #c4a8ac; min-height: 32px; align-items: center; border-bottom: 1px solid #2a0810; }
+.cxc-ok, .cxc-missing { font-family: var(--cx-mono); font-size: 12px; }
+.cxc-ok { color: #00ff9f !important; }
+.cxc-missing { color: #ff2a3c !important; }
+.cxc-hint { font-size: 13px; color: #8a6167; }
+.cxc-qr span { font-family: var(--cx-mono); font-size: 12px; color: #f0e2e3; }
+.cxc-qr-image svg { border-radius: 0 !important; border: 1px solid #4a1018; }
+
+/* уведомления */
+[data-sonner-toast] { border-radius: 0 !important; font-family: 'Manrope', sans-serif !important; }
+
+/* автопродление (SCRUM-368) */
+.cxc-renew { margin-top: 14px; padding-top: 12px; border-top: 1px solid #2a0810; display: flex; flex-direction: column; gap: 8px; }
+.cxc-renew .cxc-hint { margin: 0; }
+.action-row.single-row .cxc-install { flex: 2; }
+.cxc-phase { margin: 2px 0 0; font-family: var(--cx-mono); font-size: 12px; color: #c4a8ac; }
