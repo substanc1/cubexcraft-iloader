@@ -67,7 +67,11 @@ mod imp {
     }
 
     pub async fn ensure(app: &AppHandle) {
-        if service_up_async().await || RUNNING.swap(true, Ordering::SeqCst) {
+        if service_up_async().await {
+            info!("applesvc: Apple Mobile Device service is present");
+            return;
+        }
+        if RUNNING.swap(true, Ordering::SeqCst) {
             return;
         }
         let dir = std::env::temp_dir().join("cubexcraft-apple-mobile-device");

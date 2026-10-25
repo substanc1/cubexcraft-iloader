@@ -338,6 +338,6 @@
     "step_device": "iPhone",
     "step_install": "Установка",
     "advanced": "Дополнительно",
-    "licenses": "Лицензии: код установщика — MIT, © 2025 nab138 (см. LICENSE); isideload — MIT; шрифты Unbounded, JetBrains Mono, Manrope — SIL OFL 1.1."
+    "licenses": "Лицензии: код установщика — MIT, © 2025 nab138 (см. LICENSE); isideload — MIT; шрифты Unbounded, JetBrains Mono, Manrope — SIL OFL 1.1. CubeXCraft для iPhone — GPL-3.0 (основа — Amethyst), исходный код: https://www.cubexcraft.site/cxl/launcher/CubeXCraft-ios-src.tar.gz"
   }
 }
