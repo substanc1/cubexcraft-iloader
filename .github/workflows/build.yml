@@ -40,12 +40,17 @@ jobs:
           DMG=$(find src-tauri/target/universal-apple-darwin/release/bundle/dmg -maxdepth 1 -name "*.dmg" | head -1)
           echo "$DMG"
           cp "$DMG" CubeXCraft-Installer.dmg
-          ls -la CubeXCraft-Installer.dmg
+          # самообновление (selfupdate.rs): архив всего .app; без COPYFILE_DISABLE в архив попадут ._-файлы и сломают подпись
+          APP=$(find src-tauri/target/universal-apple-darwin/release/bundle/macos -maxdepth 1 -name "*.app" | head -1)
+          COPYFILE_DISABLE=1 tar -C "$(dirname "$APP")" -czf CubeXCraft-Installer-macos.app.tar.gz "$(basename "$APP")"
+          ls -la CubeXCraft-Installer.dmg CubeXCraft-Installer-macos.app.tar.gz
 
       - uses: actions/upload-artifact@v4
         with:
           name: CubeXCraft-Installer-mac
-          path: CubeXCraft-Installer.dmg
+          path: |
+            CubeXCraft-Installer.dmg
+            CubeXCraft-Installer-macos.app.tar.gz
           if-no-files-found: error
 
   windows:
@@ -84,10 +89,14 @@ jobs:
           EXE=$(find src-tauri/target/release/bundle/nsis -maxdepth 1 -name "*.exe" | head -1)
           echo "$EXE"
           cp "$EXE" CubeXCraft-Installer-Windows-setup.exe
-          ls -la CubeXCraft-Installer-Windows-setup.exe
+          # самообновление (selfupdate.rs): сам exe приложения, без NSIS
+          cp src-tauri/target/release/cubexcraft-installer.exe CubeXCraft-Installer-windows-x64.exe
+          ls -la CubeXCraft-Installer-Windows-setup.exe CubeXCraft-Installer-windows-x64.exe
 
       - uses: actions/upload-artifact@v4
         with:
           name: CubeXCraft-Installer-windows
-          path: CubeXCraft-Installer-Windows-setup.exe
+          path: |
+            CubeXCraft-Installer-Windows-setup.exe
+            CubeXCraft-Installer-windows-x64.exe
           if-no-files-found: error

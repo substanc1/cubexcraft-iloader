@@ -236,6 +236,8 @@ pub async fn install_cubexcraft_operation(
     app_path: Option<String>,
 ) -> Result<(), AppError> {
     let op = Operation::new("install_cubexcraft".to_string(), &window);
+    // пока ставим — самообновление ждёт
+    let _busy = crate::selfupdate::BusyGuard::new();
     let device = {
         let device_guard = device_state.lock().unwrap();
         match &*device_guard {

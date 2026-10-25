@@ -14,6 +14,7 @@ mod error;
 mod fastinstall;
 mod logging;
 mod operation;
+mod selfupdate;
 
 use crate::{
     account::{
@@ -42,6 +43,7 @@ use tracing_subscriber::{Layer, Registry, fmt, layer::SubscriberExt, util::Subsc
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    selfupdate::on_startup();
     tauri::Builder::default()
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
@@ -163,6 +165,8 @@ pub fn run() {
                 app.listen_any(event, move |_| autorenew::show_main(&handle));
             }
             autorenew::start(app.handle().clone());
+            // самообновление, как у лаунчера: при запуске и раз в 6 часов
+            selfupdate::start(app.handle().clone());
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![

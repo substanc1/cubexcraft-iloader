@@ -39,6 +39,8 @@ function App() {
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [version, setVersion] = useState<string>("");
   const [noKeyringAvailable, setNoKeyringAvailable] = useState<boolean>(false);
+  // самообновление (selfupdate.rs): пока качается и ставится новая версия — плашка поверх окна
+  const [selfUpdate, setSelfUpdate] = useState<{ state: string; version: string; progress: number } | null>(null);
   const refreshDevicesRef = useRef<(() => void) | null>(null);
   const { platform } = usePlatform();
 
@@ -55,6 +57,15 @@ function App() {
     checkKeyring();
     getVersion().then(setVersion);
   }, [checkKeyring]);
+
+  useEffect(() => {
+    const unlisten = listen<{ state: string; version: string; progress: number }>("self-update", (event) => {
+      setSelfUpdate(event.payload.state === "failed" ? null : event.payload);
+    });
+    return () => {
+      unlisten.then((fn) => fn());
+    };
+  }, []);
 
   const shortcutLabel = useCallback(
     (mac: string, windows: string, linux?: string) => {
@@ -197,6 +208,14 @@ function App() {
       </footer>
 
       {operationState && <OperationView operationState={operationState} closeMenu={() => setOperationState(null)} />}
+      <Modal sizeFit isOpen={selfUpdate !== null} zIndex={3000}>
+        <h2>{t("update.self_title")}</h2>
+        <p className="cxc-phase">
+          {selfUpdate?.state === "restarting"
+            ? t("update.self_restarting")
+            : t("update.self_downloading", { version: selfUpdate?.version, pct: selfUpdate?.progress })}
+        </p>
+      </Modal>
       <Modal isOpen={advancedOpen} close={() => setAdvancedOpen(false)}>
         <h2>{t("cxc.advanced")}</h2>
         <p className="cxc-hint">{t("cxc.licenses")}</p>

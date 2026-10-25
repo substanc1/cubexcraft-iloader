@@ -320,7 +320,10 @@
     "new_version_available": "Доступна новая версия: {{version}}. Обновить?",
     "updating": "Обновление...",
     "downloaded_restarting": "Обновление загружено! Перезагрузка приложения...",
-    "failed_download": "Не удалось загрузить обновление: {{error}}"
+    "failed_download": "Не удалось загрузить обновление: {{error}}",
+    "self_title": "Обновляю установщик",
+    "self_downloading": "Версия {{version}}: {{pct}} %",
+    "self_restarting": "Готово, перезапускаю…"
   },
   "cxc": {
     "subtitle": "установщик для iPhone",

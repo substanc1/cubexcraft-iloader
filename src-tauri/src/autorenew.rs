@@ -160,6 +160,7 @@ pub async fn run_once(app: &AppHandle, force: bool) {
     if RUNNING.swap(true, Ordering::SeqCst) {
         return;
     }
+    let _busy = crate::selfupdate::BusyGuard::new();
     let mut state = load(app);
     if !state.devices.is_empty() {
         let latest = latest_version().await;
